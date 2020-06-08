@@ -8,6 +8,7 @@ async function run() {
     const nameToGreet = core.getInput('who-to-greet');
     console.log(`Hello ${nameToGreet}!`);
     console.log(`Event: ${github.context.eventName}`);
+    console.log(`Owner: ${github.context.owner}, repo: ${github.context.repo}`);
 
     if (github.context.eventName === 'pull_request') {
       const pullPayload = github.context.payload;
