@@ -11,7 +11,7 @@ async function run() {
     if (github.context.eventName === 'pull_request') {
       const pullPayload = github.context.payload;
 
-      const octokit = github.getOctokit('');
+      const octokit = github.getOctokit(secrets.PERSONAL_ACCESS_TOKEN);
       const files = await octokit.pulls.listFiles({
         owner: 'jasonjoh',
         repo: 'hello-world-javascript-action',
