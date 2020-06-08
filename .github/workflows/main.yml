@@ -6,8 +6,10 @@ jobs:
     name: A job to say hello
     steps:
     - name: Hello world action step
+      env:
+        GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       id: hello
-      uses: jasonjoh/hello-world-javascript-action@v1.5
+      uses: jasonjoh/hello-world-javascript-action@v1.6
       with:
         who-to-greet: 'Mona the Octocat'
     # Use the output from the `hello` step
