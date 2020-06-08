@@ -1,6 +1,5 @@
-import * as core from '@actions/core';
-import * as github from '@actions/github';
-import * as Webhooks from '@octokit/webhooks';
+const core = require('@actions/core');
+const github = require('@actions/github');
 
 async() => {
   try {
@@ -10,7 +9,7 @@ async() => {
     console.log(`Event: ${github.context.eventName}`);
 
     if (github.context.eventName === 'pull_request') {
-      const pullPayload = github.context.payload as Webhooks.Webhooks.WebhookPayloadPullRequest;
+      const pullPayload = github.context.payload;
 
       const octokit = github.getOctokit('');
       const files = await octokit.pulls.listFiles({
