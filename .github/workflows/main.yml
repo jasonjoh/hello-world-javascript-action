@@ -9,7 +9,7 @@ jobs:
       env:
         API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       id: hello
-      uses: jasonjoh/hello-world-javascript-action@v1.13
+      uses: jasonjoh/hello-world-javascript-action@v1.14
       with:
         who-to-greet: 'Mona the Octocat'
     # Use the output from the `hello` step
