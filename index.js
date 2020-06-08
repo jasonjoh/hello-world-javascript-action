@@ -7,11 +7,12 @@ async function run() {
     const nameToGreet = core.getInput('who-to-greet');
     console.log(`Hello ${nameToGreet}!`);
     console.log(`Event: ${github.context.eventName}`);
+    console.log(`Token: ${API_TOKEN}`);
 
     if (github.context.eventName === 'pull_request') {
       const pullPayload = github.context.payload;
 
-      const octokit = github.getOctokit(env.GITHUB_TOKEN);
+      const octokit = github.getOctokit(API_TOKEN);
       const files = await octokit.pulls.listFiles({
         owner: 'jasonjoh',
         repo: 'hello-world-javascript-action',
