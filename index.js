@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
+const fetch = require('node-fetch');
 
 async function run() {
   try {
@@ -21,6 +22,11 @@ async function run() {
 
       files.data.forEach((file) => {
         console.log(`File: ${file.filename}`);
+
+        const response = await fetch(file.raw_url);
+        const content = await response.text();
+
+        console.log(`Contents: ${content}`);
       });
     }
     // Get the JSON webhook payload for the event that triggered the workflow
