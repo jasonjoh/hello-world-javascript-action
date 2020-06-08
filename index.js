@@ -20,14 +20,14 @@ async function run() {
         per_page: 100
       });
 
-      files.data.forEach((file) => {
+      for (const file of files.data) {
         console.log(`File: ${file.filename}`);
 
         const response = await fetch(file.raw_url);
         const content = await response.text();
 
         console.log(`Contents: ${content}`);
-      });
+      }
     }
     // Get the JSON webhook payload for the event that triggered the workflow
     //const payload = JSON.stringify(github.context.payload, undefined, 2)
