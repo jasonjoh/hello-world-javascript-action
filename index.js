@@ -46,10 +46,10 @@ async function run() {
           prComment = prComment + `- ${file.filename}`;
         });
 
-        octokit.pulls.createComment({
+        octokit.issues.createComment({
           owner: 'jasonjoh',
           repo: 'hello-world-javascript-action',
-          pull_number: pullPayload.pull_request.number,
+          issue_number: pullPayload.pull_request.number,
           body: prComment
         });
 
