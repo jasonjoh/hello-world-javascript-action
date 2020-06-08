@@ -4,9 +4,6 @@ const fetch = require('node-fetch');
 
 async function run() {
   try {
-    // `who-to-greet` input defined in action metadata file
-    const nameToGreet = core.getInput('who-to-greet');
-    console.log(`Hello ${nameToGreet}!`);
     console.log(`Event: ${github.context.eventName}`);
     console.log(`Owner: ${github.context.repo.owner}, repo: ${github.context.repo.repo}`);
 
@@ -14,9 +11,10 @@ async function run() {
       const pullPayload = github.context.payload;
 
       const octokit = github.getOctokit(process.env.API_TOKEN);
+
       const files = await octokit.pulls.listFiles({
-        owner: 'jasonjoh',
-        repo: 'hello-world-javascript-action',
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
         pull_number: pullPayload.pull_request.number,
         per_page: 100
       });
@@ -48,15 +46,15 @@ async function run() {
         });
 
         octokit.issues.createComment({
-          owner: 'jasonjoh',
-          repo: 'hello-world-javascript-action',
+          owner: github.context.repo.owner,
+          repo: github.context.repo.repo,
           issue_number: pullPayload.pull_request.number,
           body: prComment
         });
 
         octokit.issues.addLabels({
-          owner: github.context.owner,
-          repo: github.context.repo,
+          owner: github.context.repo.owner,
+          repo: github.context.repo.repo,
           issue_number: pullPayload.pull_request.number,
           labels: [ 'crlf detected' ]
         });
@@ -64,8 +62,8 @@ async function run() {
         core.setFailed('Files with CRLF detected in pull request');
       } else {
         octokit.issues.removeLabel({
-          owner: github.context.owner,
-          repo: github.context.repo,
+          owner: github.context.repo.owner,
+          repo: github.context.repo.repo,
           issue_number: pullPayload.pull_request.number,
           name: 'crlf detected'
         });
