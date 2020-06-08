@@ -53,7 +53,21 @@ async function run() {
           body: prComment
         });
 
+        octokit.issues.addLabels({
+          owner: github.context.owner,
+          repo: github.context.repo,
+          issue_number: pullPayload.pull_request.number,
+          labels: [ 'crlf detected' ]
+        });
+
         core.setFailed('Files with CRLF detected in pull request');
+      } else {
+        octokit.issues.removeLabel({
+          owner: github.context.owner,
+          repo: github.context.repo,
+          issue_number: pullPayload.pull_request.number,
+          name: 'crlf detected'
+        });
       }
     }
     // Get the JSON webhook payload for the event that triggered the workflow
