@@ -22,6 +22,8 @@ async function run() {
 
       const regex = /\r\n/g;
 
+      var errorFiles = [];
+
       for (const file of files.data) {
         console.log(`File: ${file.filename}`);
 
@@ -29,10 +31,29 @@ async function run() {
         const content = await response.text();
 
         if (regex.test(content)) {
+          errorFiles.push(file);
           console.log('File contains CRLF');
         } else {
           console.log('File is clean');
         }
+      }
+
+      var prComment = '### EOL Buster Validation Failed\n\n' +
+       'The following files in this pull request have Windows-style line endings:\n\n';
+
+      if (errorFiles.length > 0) {
+        errorFiles.forEach(file => {
+          prComment = prComment + `- ${file.filename}`;
+        });
+
+        octokit.pulls.createComment({
+          owner: 'jasonjoh',
+          repo: 'hello-world-javascript-action',
+          pull_number: pullPayload.pull_request.number,
+          body: prComment
+        });
+
+        core.setFailed('Files with CRLF detected in pull request');
       }
     }
     // Get the JSON webhook payload for the event that triggered the workflow
