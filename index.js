@@ -7,7 +7,7 @@ async function run() {
     const nameToGreet = core.getInput('who-to-greet');
     console.log(`Hello ${nameToGreet}!`);
     console.log(`Event: ${github.context.eventName}`);
-    console.log(`Token: ${API_TOKEN}`);
+    console.log(`Token: ${process.env.API_TOKEN}`);
 
     if (github.context.eventName === 'pull_request') {
       const pullPayload = github.context.payload;
