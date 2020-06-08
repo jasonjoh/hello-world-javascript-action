@@ -20,13 +20,19 @@ async function run() {
         per_page: 100
       });
 
+      const regex = /\r\n/g;
+
       for (const file of files.data) {
         console.log(`File: ${file.filename}`);
 
         const response = await fetch(file.raw_url);
         const content = await response.text();
 
-        console.log(`Contents: ${content}`);
+        if (regex.test(content)) {
+          console.log('File contains CRLF');
+        } else {
+          console.log('File is clean');
+        }
       }
     }
     // Get the JSON webhook payload for the event that triggered the workflow
